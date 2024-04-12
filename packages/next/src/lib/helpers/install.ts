@@ -29,7 +29,7 @@ export function install(
 ): Promise<void> {
   let args: string[] = []
 
-  if (dependencies && dependencies.length > 0) {
+  if (dependencies.length > 0) {
     if (packageManager === 'yarn') {
       args = ['add', '--exact']
       if (devDependencies) args.push('--dev')
