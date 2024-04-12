@@ -24,12 +24,10 @@ interface InstallArgs {
  */
 export function install(
   root: string,
-  dependencies: string[] | null,
+  dependencies: string[],
   { packageManager, isOnline, devDependencies }: InstallArgs
 ): Promise<void> {
   let args: string[] = []
-
-  dependencies ??= []
 
   if (dependencies && dependencies.length > 0) {
     if (packageManager === 'yarn') {
@@ -43,6 +41,8 @@ export function install(
       args = ['install', '--save-exact']
       args.push(devDependencies ? '--save-dev' : '--save')
     }
+
+    args.push(...dependencies)
   } else {
     args = ['install'] // npm, pnpm, and yarn all support `install`
 
@@ -57,8 +57,6 @@ export function install(
       console.log()
     }
   }
-
-  args.push(...dependencies)
 
   return new Promise((resolve, reject) => {
     /**
